@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>datetimepicker test</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+  <script src="static/js/jquery-3.2.1.min.js"></script>
+  <script src="static/js/bootstrap.min.js"></script>
+  <script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+
+</head>
+<body>
+  <div align="center">
+    <span>開始時間</span>
+    <input size="16" type="text" id="datetimeStart" readonly class="form_datetime">
+    <b>--</b>
+    <span>結束時間</span>
+    <input size="16" type="text" id="datetimeEnd" readonly class="form_datetime">
+  </div>
+  <script type="text/javascript">
+      $('.date').datetimepicker({
+        language: 'zh-TW',//显示中文
+        format: 'yyyy-mm-dd',//显示格式
+        minView: "year",//设置只显示到月份
+        initialDate: new Date(),//初始化当前日期
+        autoclose: true,//选中自动关闭
+        todayBtn: true//显示今日按钮
+      })
+
+      $("#datetimeStart").datetimepicker({
+        format: 'yyyy-mm-dd',
+        minView:'year',
+        language: 'zh-TW',
+        autoclose:true,
+        maxDate:new Date()
+      }).on("click",function(){
+        $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+      });
+      $("#datetimeEnd").datetimepicker({
+        format: 'yyyy-mm-dd',
+        minView:'year',
+        language: 'zh-TW',
+        autoclose:true,
+        maxDate:new Date()
+      }).on("click",function(){
+        $("#datetimeEnd").datetimepicker("setStartDate",$("#datetimeStart".val()))
+      });
+  </script>
+</body>
+</html>

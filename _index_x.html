@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PCAS異常分析</title>
+    <meta charset="utf-8">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-datetimepicker.min.css">
+    <style type="text/css">
+    .table th, .table td{
+      text-align: center;
+      vertical-align: middle!important;
+    }
+    .table caption{
+      text-align: center;
+    }
+    </style>
+
+    <script>
+      $(function () {
+          $('#datetimepicker1').datetimepicker({
+              format: 'YYYY-MM-DD',
+              locale: moment.locale('zh-cn')
+          });
+          $('#datetimepicker2').datetimepicker({
+              format: 'YYYY-MM-DD hh:mm',
+              locale: moment.locale('zh-cn')
+          });
+      });
+    </script>
+  </head>
+  <body>
+
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <label>选择日期：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <label>选择日期+时间：</label>
+                <!--指定 date标记-->
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<table class="table" style="width:500px" align="center">
+  <caption>基本的表格布局</caption>
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>城市</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Tanmay</td>
+      <td>Bangalore</td>
+    </tr>
+    <tr>
+      <td>Sachin</td>
+      <td>Mumbai</td>
+    </tr>
+  </tbody>
+</table>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="static/js/bootstrap-datetimepicker.zh-TW.js"></script>
+    <script src="static/js/moment-with-locales.js"></script>
+  </body>
+</html>

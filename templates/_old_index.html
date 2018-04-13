@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Title</title>
+</head>
+<body>
+  <div align='center'>
+    <h1>Show Page</h1>
+    <table border="1">
+      <tr>
+        <td align="center">BU单位</td>
+        <td align="center">异常发生次数</td>
+      </tr>
+      {% for each in str_list %}
+      <tr>
+        <td align="center">{{ each.bu }}</td>
+        <td align="center">{{ each.count }}</td>
+      </tr>
+      {% endfor %}
+      <!--<tr>
+        <td align="center">合计</td>
+        <td align="center">{{ str_list.bu }}</td>
+      </tr>-->
+    </table>
+  </div>
+</body>
+</html>

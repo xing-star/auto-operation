@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>異常工時處理</title>
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <script src="static/js/jquery-1.8.3.min.js"></script>
+
+  </head>
+  <body>
+    <center>
+      <h4 align="center">請輸入異常編號</h4>
+      <div class="input-group col-md-4">
+            <input type="text" class="form-control" id="ABSN"/>
+            <span class="input-group-btn">
+              <button class="btn btn-info btn-search" id="btn">查詢</button>
+            </span>
+      </div>
+
+      <div align="center">
+        <h4 style="color:red;">操作手冊</h4>
+        <b style="color:red;">1.其餘欄位如：異常大項，異常細項，責任單位代碼都需要填寫代碼</b><br/><br/>
+        <b style="color:red;">2.若修改了開始時間與結束時間必須修正時間間隔(爲分鍾)只填寫數字</b><br/><br/>
+        <b style="color:red;">3.(填寫時間格式爲:yyyy-mm-dd hh24:mi:ss,例如(2018年1月1日下午8點)寫成(2018-01-01 20:00:00)24小時制注意日期與時間有個空格)</b>
+      <div>
+
+      <table class="table" border="1">
+
+        <thead>
+          <th>異常編號</th>
+          <th>開始時間</th>
+          <th>結束時間</th>
+          <th>時間間隔</th>
+          <th>異常大項代碼</th>
+          <th>異常細項代碼</th>
+          <th>異常描述</th>
+          <th>異常描述2</th>
+          <th>異常描述3</th>
+          <th>責任單位代碼</th>
+        </thead>
+        <tbody>
+          {% for each in str_list %}
+          <tr class="success">
+            <td>{{ each[22] }}</td>
+            <td contenteditable="true">{{ each[15] }}</td>
+            <td contentEditable="true">{{ each[16] }}</td>
+            <td contentEditable="true">{{ each[17] }}</td>
+            <td contentEditable="true">{{ each[9] }}</td>
+            <td contentEditable="true">{{ each[8] }}</td>
+            <td contentEditable="true">{{ each[10] }}</td>
+            <td contentEditable="true">{{ each[11] }}</td>
+            <td contentEditable="true">{{ each[12] }}</td>
+            <td contentEditable="true">{{ each[18] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button class="btn btn-info btn-search" id="delete">刪除</button>
+      <button class="btn btn-info btn-search" id="update">更新</button>
+      <script type="text/javascript">
+
+        $(document).ready(function(){
+          //通過ABSN獲得查詢記錄
+          $("#btn").click(function(){
+              if($("#ABSN").val()=='')
+              {
+                  alert("請輸入異常編號");
+                  return 0;
+              }
+              $(location).attr('href', "/?ABSN="+$("#ABSN").val());
+          });
+          var str_list;
+          $('.table tr').each(function(i) {
+              $(this).children('td').each(function(j){
+                if (i == 1 && j == 0){
+                  str_list = $(this).text();
+                }
+              });
+          });
+
+
+          //刪除動作
+          $("#delete").click(function(){
+              if(str_list == '')
+              {
+                  alert("請查找異常編號");
+                  return 0;
+              }
+              if(confirm("確認刪除該筆異常？"))
+              {
+                $.post(
+                  "/",
+                  {data:str_list},
+                  function(response) {
+                    alert(response);
+                    console.log(response);
+                  }
+                );
+                alert("刪除成功!");
+                //window.history.go(-1);
+              }
+              else {
+                alert("刪除失敗!");
+                //window.history.go(-1);
+              }
+          });
+
+          //修改動作
+          $("#update").click(function(){
+              var str_json,absncode,starttime,endtime,intervaltime,typecode,itemcode,desc1,
+                  desc2,desc3,departcode;
+              $('.table tr').each(function(i) {
+                  $(this).children('td').each(function(j){
+                      if (i == 1 && j == 0){
+                        absncode = $(this).text();
+                      }
+                      if (i == 1 && j == 1){
+                        starttime = $(this).text();
+                      }
+                      if (i == 1 && j == 2){
+                        endtime = $(this).text();
+                      }
+                      if (i == 1 && j == 3){
+                        intervaltime = $(this).text();
+                      }
+                      if (i == 1 && j == 4){
+                        typecode = $(this).text();
+                      }
+                      if (i == 1 && j == 5){
+                        itemcode = $(this).text();
+                      }
+                      if (i == 1 && j == 6){
+                        desc1 = $(this).text();
+                      }
+                      if (i == 1 && j == 7){
+                        desc2 = $(this).text();
+                      }
+                      if (i == 1 && j == 8){
+                        desc3 = $(this).text();
+                      }
+                      if (i == 1 && j == 9){
+                        departcode = $(this).text();
+                      }
+
+                  });
+                });
+                if(absncode=='')
+                {
+                    alert("請查找異常編號");
+                    return 0;
+                }
+                str_json = JSON.stringify({"absncode":absncode,"starttime":starttime,
+                  "endtime":endtime,"intervaltime":intervaltime,
+                  "typecode":typecode,"itemcode":itemcode,
+                  "desc1":desc1,"desc2":desc2,"desc3":desc3,
+                  "departcode":departcode})
+
+                console.log(str_json);
+
+                //alert("hello");
+                $.post(
+                  "/",
+                  {dataTest:str_json},
+                  function(response) {
+                    alert(response);
+                  }
+                );
+          });
+
+
+        });
+      </script>
+    </center>
+  </body>
+</html>

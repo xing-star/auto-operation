@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PCAS異常分析</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="static/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+    <script src="static/js/jquery-1.8.3.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+    <script src="static/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-TW.js"></script>
+
+    <style type="text/css">
+    .table th, .table td{
+      text-align: center;
+      vertical-align: middle!important;
+    }
+    .table caption{
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+
+    <div align="center" style="padding-top: 44px;">
+      <span>開始時間</span>
+      <input size="16" type="text" id="datetimeStart" readonly class="form_datetime">
+      <b>--</b>
+      <span>結束時間</span>
+      <input size="16" type="text" id="datetimeEnd" class="form_datetime">
+    </div>
+
+    <script type="text/javascript">
+        $('.date').datetimepicker({
+          language: 'zh-TW',//显示中文
+          format: 'yyyy-mm-dd',//显示格式
+          minView: "year",//设置只显示到月份
+          initialDate: new Date(),//初始化当前日期
+          autoclose: true,//选中自动关闭
+          todayBtn: true//显示今日按钮
+        })
+
+        $("#datetimeStart").datetimepicker({
+          format: 'yyyy-mm-dd',
+          minView:'year',
+          language: 'zh-TW',
+          autoclose:true,
+          maxDate:new Date()
+        }).on("click",function(){
+          $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+        });
+        $("#datetimeEnd").datetimepicker({
+          format: 'yyyy-mm-dd',
+          minView:'year',
+          language: 'zh-TW',
+          autoclose:true,
+          maxDate:new Date()
+        }).on("click",function(){
+          $("#datetimeEnd").datetimepicker("setStartDate",$("#datetimeStart".val()))
+        });
+
+        $("#datetimeEnd").bind("change",function(){
+          if ($("#datetimeStart").val()=="")
+          {
+            alert("開始時間不能爲空");
+            return 0;
+          }
+          $(location).attr('href', "/abnormaltime?startDate="+$("#datetimeStart").val()+"&endDate="+$("#datetimeEnd").val());
+        });
+    </script>
+
+    <table class="table" style="width:500px;" align="center">
+      <caption>PCAS各BU提交異常匯總({{ startDate }}==--=={{ endDate }})</caption>
+      <thead>
+        <th>BU單位</th>
+        <th>發生異常次數</th>
+      </thead>
+      <tbody>
+        {% for each in str_list %}
+        <tr class="success">
+          <td>{{ each[0] }}</td>
+          <td>{{ each[1] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--<script src="/static/js/jquery-3.2.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>-->
+  </body>
+</html>
